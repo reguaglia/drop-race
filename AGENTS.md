@@ -1,22 +1,25 @@
 # AGENTS.md
 
-## Repository status
+## Progetto
+Drop-Race: webapp (React + TypeScript + Canvas) che simula una gara tra
+gocce d'acqua su un finestrino. La fonte di verità è `docs/requirements.md`.
 
-This repo is an early-stage skeleton for the "Drop Race" web app. There is **no application code, package manifest, build system, test runner, or CI yet**. Do not assume a stack or run guessed commands like `npm install`, `pnpm test`, or `make` — verify a manifest/config exists first.
+## Regole
+- Prima di lavorare leggi `docs/requirements.md` e i file rilevanti in `docs/`.
+- Non modificare i requisiti. Se trovi un'ambiguità, segnalala: non decidere.
+- Non inventare regole di simulazione: proponile come decisioni da approvare.
+- Non implementare nulla che il task assegnato non richieda.
+- Non fare commit, push o operazioni Git distruttive senza approvazione esplicita.
+- Un task non è completato finché i test non sono stati eseguiti.
 
-## Layout
+## Struttura di docs/
+- `adr/`: decisioni tecniche, un file per decisione.
+- `tasks/`: task assegnati e relativo stato.
+- `acceptance/`: criteri di accettazione.
 
-- `docs/adr/` — architecture decision records.
-- `docs/tasks/` — task breakdowns / implementation planning.
-- `docs/acceptance/` — acceptance criteria and verification notes.
+## Convenzioni
+Documenti in italiano; codice e identificatori in inglese.
 
-Directories are intentionally empty (`.gitkeep`). Put planning/decision artifacts in these folders rather than at the repo root.
-
-## Conventions
-
-- `.gitignore` is the generic GitHub Node template. It mentions Next.js, Vite, SvelteKit, Astro, pnpm, yarn, and Turbo, but this does **not** mean any of them are in use. Confirm before relying on it.
-- No instruction files other than this one; keep `README.md` and this file in sync when the project takes shape.
-
-## When tooling is added
-
-Once a manifest and scripts exist, replace the "Repository status" section with the real install/build/test/lint commands, including how to run a single test and any required command order. Remove this note then.
+## Stato attuale
+Nessun codice né `package.json`. Non eseguire comandi presunti (`npm`, ecc.)
+finché non esiste un manifest. Sostituire questa sezione quando c'è il tooling.
