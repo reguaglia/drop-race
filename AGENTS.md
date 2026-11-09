@@ -6,6 +6,7 @@ gocce d'acqua su un finestrino. La fonte di verità è `docs/requirements.md`.
 
 ## Regole
 - Prima di lavorare leggi `docs/requirements.md` e i file rilevanti in `docs/`.
+- Leggi anche `docs/tasks/roadmap.md` per milestone e vincoli di processo.
 - Non modificare i requisiti. Se trovi un'ambiguità, segnalala: non decidere.
 - Non inventare regole di simulazione: proponile come decisioni da approvare.
 - Non implementare nulla che il task assegnato non richieda.
@@ -21,5 +22,8 @@ gocce d'acqua su un finestrino. La fonte di verità è `docs/requirements.md`.
 Documenti in italiano; codice e identificatori in inglese.
 
 ## Stato attuale
-Nessun codice né `package.json`. Non eseguire comandi presunti (`npm`, ecc.)
-finché non esiste un manifest. Sostituire questa sezione quando c'è il tooling.
+Nessun codice né `package.json`. Non eseguire comandi presunti (`npm`, ecc.) finché non esiste un manifest. Sostituire questa sezione quando c'è il tooling.
+Agenti definiti in .opencode/agents/.
+
+## Strumenti
+OpenCode V1, non V2. Gli agenti stanno in `.opencode/agents/*.md` e usano la chiave `permission` (singolare). Non usare la sintassi V2.
