@@ -2,6 +2,7 @@
 
 ## Vincoli di processo
 - Strumento: OpenCode V1 (1.19.5). Nessuna migrazione a V2 prima della Milestone 10.
+- Avviare OpenCode con OPENCODE_DISABLE_CLAUDE_CODE=1 per isolare il contesto globale.
 - Modello: Big Pickle per tutti gli agenti (gratuito, condizioni e limiti da verificare).
 - I requisiti li modifica solo il committente.
 - Commit, push e operazioni Git importanti solo con approvazione umana.
