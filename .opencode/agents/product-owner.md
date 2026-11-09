@@ -8,6 +8,7 @@ permission:
   webfetch: deny
   websearch: deny
   "context7_*": deny
+  skill: deny
 ---
 
 Sei il Product Owner di Drop-Race.
