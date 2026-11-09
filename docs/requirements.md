@@ -1,6 +1,10 @@
 # Requisiti
 
-## Progetto: Drop Race
+Versione: 0.4
+
+Questo documento è la fonte di verità del progetto. Solo il committente può modificarlo.
+
+## Progetto: Drop-Race
 
 Drop-Race è una webapp che simula una gara tra gocce d'acqua su un finestrino.
 
@@ -10,7 +14,7 @@ L'utente prepara i concorrenti e configura le caratteristiche generali del fines
 
 L'utente può:
 - Creare da 2 a 8 gocce dinamiche.
-- Scegliere liberamente la posizione iniziale di ciascuna goccia.
+- Scegliere la posizione iniziale x di ciascuna goccia; la quota è fissa, dietro una linea di partenza.
 - Scegliere il colore di ciascuna goccia.
 
 Le gocce dinamiche hanno tutte le stesse proprietà fisiche iniziali.
@@ -19,13 +23,17 @@ Il colore è esclusivamente estetico e non influenza la simulazione.
 
 Il posizionamento avviene tramite click o tap sul finestrino, rispettando una distanza minima tra le gocce.
 
+Del click o tap vale solo la coordinata x.
+
 ### Configurazione del finestrino
 
 L'utente può configurare:
 - Altezza del finestrino.
 - Livello degli ostacoli: basso, medio o alto.
 
-La larghezza è fissa.
+La larghezza è fissa. È una larghezza logica, scalata alle dimensioni dello schermo mantenendo le proporzioni.
+
+Il finestrino è sempre verticale, senza inclinazione.
 
 Il sistema genera automaticamente:
 - Posizione e dimensione delle gocce statiche.
@@ -36,6 +44,12 @@ Il sistema genera automaticamente:
 Le correnti d'aria sono considerate ostacoli e devono interessare tutte le gocce dinamiche nello stesso momento.
 
 L'utente non può scegliere il percorso.
+
+### Movimento e ostacoli
+
+- Le gocce dinamiche si muovono in 2D: possono deviare lateralmente.
+- Gli ostacoli, in base al tipo, possono rallentare, deviare o bloccare una goccia.
+- Un blocco dura da 1 a 3 secondi e non è mai permanente.
 
 ### Generazione procedurale
 
@@ -70,22 +84,25 @@ Una goccia dinamica può inglobare:
 - Qualsiasi goccia statica.
 - Una goccia dinamica esclusivamente quando possiede una potenza superiore.
 
-La potenza di una goccia dinamica dipende dal numero di gocce statiche inglobate.
+La potenza è un valore associato a ogni goccia dinamica e serve solo a stabilire chi può inglobare chi.
 
-Due gocce dinamiche con la stessa potenza non possono inglobarsi.
+Calcolo della potenza:
+- La potenza iniziale di ogni goccia dinamica è 0.
+- Inglobando una goccia statica, la potenza aumenta di 1.
+- Inglobando una goccia dinamica B, la goccia dinamica A assume potenza P(A) + P(B) + 1.
+
+Due gocce dinamiche con la stessa potenza non possono inglobarsi: rimbalzano.
 
 Se una goccia dinamica ingloba un'altra goccia:
 - La goccia inglobata viene eliminata.
-- La potenza viene aggiornata secondo le regole definite.
+- La potenza viene aggiornata come sopra.
 - Non viene riprodotta alcuna animazione di fusione.
 
-ATTENZIONE: la definizione esatta dell'incremento di potenza quando viene inglobata una goccia dinamica deve essere chiarita prima dell'implementazione. Non inventare una regola.
+### Boost temporaneo di velocità
 
-### Boost temporaneo
+Ogni inglobamento, di una goccia statica o dinamica, produce un aumento temporaneo di velocità della goccia che ingloba. Il boost è un moltiplicatore ×1,1 applicato alla velocità, con durata 200 ms.
 
-Ogni inglobamento produce un'accelerazione temporanea.
-
-Esempio:
+Esempio (valori puramente esemplificativi):
 - Velocità nominale: 1 cm/s.
 - Velocità durante il boost: 1,1 cm/s.
 - Durata: 200 ms.
@@ -93,7 +110,7 @@ Esempio:
 Se durante il boost avviene un altro inglobamento:
 - Il timer viene azzerato.
 - La durata riparte da 200 ms.
-- La velocità massima rimane 1,1 cm/s.
+- Il moltiplicatore massimo rimane ×1,1.
 - Non si accumulano ulteriori incrementi di velocità.
 
 Alla fine del boost la velocità torna al valore nominale previsto dalla simulazione.
@@ -115,7 +132,7 @@ Quando una goccia raggiunge il traguardo, la partita termina immediatamente.
 
 Non sono previste:
 - Pause.
-- Accelerazioni della simulazione.
+- Accelerazione del tempo di simulazione per l'utente. I test possono far avanzare la simulazione a passi di tempo fissi, indipendenti dal tempo reale.
 - Classifiche.
 - Statistiche finali.
 
@@ -143,7 +160,6 @@ Non deve essere una simulazione scientifica della fluidodinamica, ma nemmeno una
 
 Deve considerare almeno:
 - Gravità.
-- Inclinazione del finestrino, se prevista dal modello fisico.
 - Attrito.
 - Aderenza.
 - Inerzia.
@@ -160,24 +176,40 @@ La simulazione deve utilizzare un timestep controllato, indipendente dal frame r
 
 La logica deve essere testabile in modo deterministico.
 
-Prima di implementare il motore fisico, proponi un modello matematico e spiegami le formule utilizzate.
+Prima di implementare il motore fisico va proposto un modello matematico, con le formule spiegate, da approvare.
 
-Non inventare proprietà fisiche non concordate senza presentarle prima come decisioni da approvare.
+Non vanno introdotte proprietà fisiche non concordate senza presentarle prima come decisioni da approvare.
 
-## Decisioni chiarite (v0.1)
+## Vincoli tecnici
 
-- Potenza iniziale di ogni goccia dinamica: 0.
-- Inglobare una goccia statica: potenza +1.
-- Inglobare una goccia dinamica: P' = P(A) + P(B) + 1.
-- Gocce dinamiche di pari potenza: rimbalzano.
-- Boost: moltiplicatore x1,1 sulla velocità, 200 ms, timer azzerato a ogni
-  nuovo inglobamento, non cumulabile. I valori di velocità negli esempi
-  sono esemplificativi.
-- La potenza influenza solo l'inglobamento.
-- Posizione iniziale: l'utente sceglie solo la x; la quota è fissa,
-  dietro una linea di partenza.
-- Moto 2D. Gli ostacoli possono rallentare, deviare o bloccare;
-  un blocco dura da 1 a 3 secondi (mai permanente).
-- Finestrino sempre verticale, nessuna inclinazione.
-- Stack: Vite, React, TypeScript, Vitest, npm. Deploy: GitHub Pages.
-- OpenCode V1 (1.19.5). Nessuna migrazione a V2 prima della Milestone 10.
+- Stack: Vite, React, TypeScript, Vitest, npm.
+- Deploy: GitHub Pages.
+
+## Punti aperti
+
+- Valore della larghezza logica e intervallo dell'altezza: Milestone 4.
+- Distanza minima tra le gocce: Milestone 4.
+- Condizioni di equità del generatore: Milestone 4.
+- Cosa si azzera a ogni nuova partita: Milestone 4.
+- Lingua dell'interfaccia: Milestone 5.
+- Posizione e visibilità della linea di partenza: Milestone 5.
+- Modifica ed eliminazione delle gocce prima dell’avvio: Milestone 5.
+- Criterio di traguardo e parità: Milestone 6.
+- Geometria e automaticità dell'inglobamento: Milestone 6.
+- Collisioni multiple nello stesso istante: Milestone 6.
+- Cosa acquisisce la goccia che ingloba (velocità, boost residuo): Milestone 6.
+- Modello del rimbalzo tra gocce di pari potenza: Milestone 6.
+- Comportamento ai bordi del finestrino: Milestone 6.
+- Gara senza vincitore (timeout): Milestone 6.
+- Crescita visiva: Milestone 6.
+- Significato di "fisica intermedia" (il modello matematico): Milestone 6.
+- Semantica del blocco (durata nel range, interazioni durante il blocco): Milestone 6.
+- Riferimento del boost (velocità istantanea o nominale) e timer durante il blocco: Milestone 6, nel modello matematico.
+- Seed e garanzia di diversità tra gare consecutive: Milestone 7.
+- Livelli di ostacolo: Milestone 7.
+- Correnti d'aria: Milestone 7.
+- Zone di aderenza: Milestone 7.
+- Durata del countdown: Milestone 8.
+- Schermata finale: Milestone 8.
+- Avvio della gara e modifiche consentite durante il countdown: Milestone 8.
+- Visibilità della potenza durante la gara: Milestone 8.
