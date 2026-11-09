@@ -28,9 +28,10 @@ prodotto nuove e segnalando le ambiguità come decisioni da prendere.
 - `AGENTS.md`: i requisiti non si modificano; le ambiguità si segnalano.
 
 ## Criteri di accettazione
-- [ ] La user story è un file Markdown in `docs/tasks/` (o in `docs/acceptance/`
-      se il committente indica quella sede) che identifica ruolo, bisogno e
-      valore, riferito alla sola sezione "Creazione delle gocce".
+- [ ] L'output del product-owner contiene le user story nell'Esito, in un blocco
+      Markdown pronto da copiare. Nessun file viene creato dall'agente: il
+      committente promuove il testo approvato in
+      `docs/acceptance/US-001-creazione-gocce.md`.
 - [ ] Ogni affermazione della user story e dei criteri è riconducibile a una
       frase di `docs/requirements.md`; nessuna regola di prodotto inventata.
 - [ ] I criteri di accettazione coprono almeno: numero minimo e massimo di
@@ -46,6 +47,9 @@ prodotto nuove e segnalando le ambiguità come decisioni da prendere.
 - [ ] Nessuna modifica a `docs/requirements.md`, `docs/tasks/roadmap.md`,
       `AGENTS.md` o ad altri file fuori dal documento prodotto.
 - [ ] Il documento prodotto è in italiano secondo le convenzioni del progetto.
+- [ ] Al massimo 8 criteri di accettazione, ciascuno con un risultato osservabile;
+      nessun criterio tautologico o ripetuto; nessuna tabella dei riferimenti né
+      storico.
 
 ## Fuori perimetro
 - Implementazione di UI, componenti React, Canvas o logica di simulazione.
@@ -68,16 +72,18 @@ prodotto nuove e segnalando le ambiguità come decisioni da prendere.
   se esista un colore predefinito (non specificato).
 - Se la dimensione visiva delle gocce dinamiche sia uguale per tutte o vari
   (i requisiti parlano di dimensioni variabili solo per le gocce statiche).
-- Sede del documento prodotto: `docs/tasks/` o `docs/acceptance/`.
 
 ## Esito
+
+### Versione 1 (scartata: troppo estesa)
+
 **Nota operativa:** in questa sessione dispongo solo di strumenti di lettura (`read`, `glob`, `grep`) e non di un tool di scrittura. Non ho quindi potuto materializzare il file; il contenuto integrale è pronto qui sotto per essere salvato nel percorso indicato.
 
-## (a) Percorso del file
+#### (a) Percorso del file
 
 `docs/tasks/US-001-creazione-gocce.md` — **non creato materialmente** per assenza di tool di scrittura; contenuto pronto da salvare.
 
-## (b) Contenuto integrale del documento
+#### (b) Contenuto integrale del documento
 
 ```markdown
 # US-001 — Creazione delle gocce
@@ -307,7 +313,7 @@ rispettando una distanza minima tra le gocce.»
 - 0.1 — 9 novembre 2026 — Prima bozza.
 ```
 
-## (c) Ambiguità rilevate
+#### (c) Ambiguità rilevate
 
 **Già presenti nel task T-001:**
 1. Valore della distanza minima tra le gocce e criterio di misura (Punto aperto Milestone 4).
@@ -325,7 +331,7 @@ rispettando una distanza minima tra le gocce.»
 11. Modalità di scelta del colore: palette predefinita o colore libero.
 12. Momento della creazione: click o tap immediato oppure conferma; ordine tra scelta della posizione e scelta del colore.
 
-## (d) Conferma
+#### (d) Conferma
 
 Confermo di **non aver modificato alcun file**: non ho eseguito scritture, quindi `docs/requirements.md`, `docs/tasks/roadmap.md`, `docs/tasks/T-001-user-story-gocce.md`, `AGENTS.md` e ogni altro file sono invariati. Confermo inoltre di **non aver scelto valori o criteri** per i Punti aperti: distanza minima e relativo criterio di misura, comportamento sotto soglia, click/tap fuori dai bordi o sulla linea di partenza, colori distinti/ripetibili e colore predefinito, dimensione visiva delle gocce dinamiche, sede definitiva del documento. Il file `docs/tasks/US-001-creazione-gocce.md` non è stato materialmente creato perché la sessione non espone un tool di scrittura.
 
@@ -335,8 +341,96 @@ Da delegare ad Architect/Simulation: unità e mapping della coordinata x, modali
 
 Commento dell'Orchestrator (separato dall'output sopra): la delega ha prodotto il contenuto completo della user story e dei criteri di accettazione, ma il file `docs/tasks/US-001-creazione-gocce.md` non esiste: il product-owner non dispone di strumenti di scrittura e l'ho trascritto qui in attesa di istruzioni. Non ho salvato io il file, perché la sede definitiva è ancora in "Da decidere" e non spetta a me sceglierla. Il product-owner ha inoltre aggiunto quattro ambiguità nuove (punti 9–12); restano tutte decisioni del committente.
 
+### Versione 2
+
+```markdown
+# US-001 — Creazione delle gocce
+
+## User story
+
+Come utente che prepara i concorrenti, voglio creare da 2 a 8 gocce dinamiche scegliendo per ciascuna la posizione iniziale x, con quota fissa dietro la linea di partenza, e il colore, per avere concorrenti pronti che partano con le stesse proprietà fisiche iniziali e con il colore solo estetico.
+
+## Criteri di accettazione
+
+### CA-01 — Numero di gocce compreso tra 2 e 8
+
+**Dato** che l'utente crea i concorrenti,
+**quando** crea gocce dinamiche,
+**allora** il numero totale di gocce dinamiche create è compreso tra 2 e 8.
+
+«Creare da 2 a 8 gocce dinamiche.»
+
+### CA-02 — Posizione tramite click o tap, usando solo la x
+
+**Dato** il finestrino visualizzato,
+**quando** l'utente esegue un click o un tap sul finestrino in un punto con coordinata x,
+**allora** la goccia viene posizionata alla coordinata x del punto e la coordinata y del click o tap non incide sulla posizione.
+
+«Del click o tap vale solo la coordinata x.»
+
+### CA-03 — Quota fissa e comune, dietro la linea di partenza
+
+**Dato** un insieme di gocce dinamiche create,
+**quando** la creazione è completata,
+**allora** tutte hanno la stessa coordinata y, fissa e non scelta dall'utente, e tale quota è dietro la linea di partenza.
+
+«la quota è fissa, dietro una linea di partenza.»
+
+Dipende da: «Posizione e visibilità della linea di partenza» (Punto aperto Milestone 5) per verificare «dietro la linea».
+
+### CA-04 — Scelta del colore
+
+**Dato** una goccia dinamica creata,
+**quando** l'utente sceglie un colore per quella goccia,
+**allora** la goccia assume il colore scelto.
+
+«Scegliere il colore di ciascuna goccia.»
+
+### CA-05 — Stesse proprietà fisiche iniziali
+
+**Dato** due gocce dinamiche create con coordinate x diverse e colori diversi,
+**quando** vengono create,
+**allora** tutte le loro proprietà fisiche iniziali sono uguali.
+
+«Le gocce dinamiche hanno tutte le stesse proprietà fisiche iniziali.»
+
+Dipende da: «Significato di "fisica intermedia" (il modello matematico)» (Punto aperto Milestone 6) per l'elenco delle proprietà fisiche da confrontare.
+
+### CA-06 — Colore irrilevante sulla simulazione
+
+**Dato** due configurazioni identiche per numero, coordinate x e proprietà fisiche, ma con colori diversi,
+**quando** viene eseguita la simulazione a parità di ogni altra condizione,
+**allora** il colore non modifica le proprietà fisiche né il comportamento delle gocce e l'evoluzione simulata è la stessa.
+
+«Il colore è esclusivamente estetico e non influenza la simulazione.»
+
+### CA-07 — Distanza minima rispettata
+
+**Dato** un insieme di gocce già posizionate e una soglia minima vigente,
+**quando** l'utente posiziona una nuova goccia con click o tap,
+**allora** dopo il tentativo non esiste alcuna coppia di gocce a distanza inferiore alla soglia minima.
+
+«rispettando una distanza minima tra le gocce.»
+
+Dipende da: «Distanza minima tra le gocce» (Punto aperto Milestone 4) per il valore e il criterio di misura; il comportamento sotto soglia è in «Da decidere».
+
+## Da decidere
+
+- Valore della distanza minima tra le gocce e criterio di misura (Punto aperto Milestone 4).
+- Comportamento quando il click o tap cade a distanza inferiore alla minima, fuori dai bordi del finestrino o sulla linea di partenza (Punto aperto Milestone 5).
+- Posizione e visibilità della linea di partenza (Punto aperto Milestone 5).
+- Comportamento al tentativo di creare più di 8 gocce o di avviare con meno di 2 (Punto aperto Milestone 5).
+- Modalità di scelta del colore: palette o colore libero, colori distinti o ripetibili, colore predefinito (Punto aperto Milestone 5).
+- Momento della creazione, immediato o con conferma, e ordine tra posizione e colore (Punto aperto Milestone 5).
+- Dimensione visiva delle gocce dinamiche: uguale per tutte o variabile (Punto aperto Milestone 6).
+
+Da delegare ad Architect/Simulation: unità e mapping della coordinata x, criterio di misura della distanza minima, verifica deterministica dell'irrilevanza del colore.
+```
+
+Commento dell'Orchestrator (separato dall'output sopra): la Versione 2 è stata prodotta dal product-owner dopo l'aggiornamento dei criteri. Contiene 7 criteri di accettazione (entro il limite di 8), ciascuno con esito osservabile; non include tabella dei riferimenti né storico; non è stato creato alcun file. Restano in "Da decidere" le ambiguità non risolte, senza valori scelti. Nessuna approvazione è stata registrata: la promozione in `docs/acceptance/US-001-creazione-gocce.md` spetta al committente.
+
 ## Revisione
 Nessuna: revisione non ancora eseguita.
 
 ## Costo
-Deleghe effettuate: 1
+Deleghe effettuate: 2
