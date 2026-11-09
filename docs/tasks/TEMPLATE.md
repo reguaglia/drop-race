@@ -3,6 +3,7 @@
 Stato: proposto | approvato | in corso | in revisione | chiuso
 Esecutore: nome dell'agente
 Milestone: N
+Dipendenze: nessuna | T-NNN
 
 ## Obiettivo
 Una o due frasi.
@@ -24,3 +25,6 @@ Output integrale dell'esecutore.
 
 ## Revisione
 Output integrale di Reviewer o QA, poi esito.
+
+## Costo
+Deleghe effettuate: N
