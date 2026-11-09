@@ -1,6 +1,6 @@
 # Requisiti
 
-Versione: 0.4
+Versione: 0.5
 
 Questo documento è la fonte di verità del progetto. Solo il committente può modificarlo.
 
@@ -193,7 +193,11 @@ Non vanno introdotte proprietà fisiche non concordate senza presentarle prima c
 - Cosa si azzera a ogni nuova partita: Milestone 4.
 - Lingua dell'interfaccia: Milestone 5.
 - Posizione e visibilità della linea di partenza: Milestone 5.
-- Modifica ed eliminazione delle gocce prima dell’avvio: Milestone 5.
+- Modifica ed eliminazione delle gocce prima dell’avvio; tentativo di avvio con meno di 2 gocce: Milestone 5.
+- Comportamento al tentativo di creare più di 8 gocce: Milestone 5.
+- Scelta del colore (palette o libera, duplicati, colore predefinito): Milestone 5.
+- Click o tap fuori dai bordi, sulla linea di partenza o troppo vicino a un’altra goccia: Milestone 5.
+- Momento della creazione (immediato o con conferma) e ordine posizione/colore: Milestone 5.
 - Criterio di traguardo e parità: Milestone 6.
 - Geometria e automaticità dell'inglobamento: Milestone 6.
 - Collisioni multiple nello stesso istante: Milestone 6.
@@ -205,6 +209,7 @@ Non vanno introdotte proprietà fisiche non concordate senza presentarle prima c
 - Significato di "fisica intermedia" (il modello matematico): Milestone 6.
 - Semantica del blocco (durata nel range, interazioni durante il blocco): Milestone 6.
 - Riferimento del boost (velocità istantanea o nominale) e timer durante il blocco: Milestone 6, nel modello matematico.
+- Dimensione delle gocce dinamiche: Milestone 6.
 - Seed e garanzia di diversità tra gare consecutive: Milestone 7.
 - Livelli di ostacolo: Milestone 7.
 - Correnti d'aria: Milestone 7.
