@@ -33,7 +33,7 @@ Come utente che prepara i concorrenti, voglio creare da 2 a 8 gocce dinamiche sc
 
 «la quota è fissa, dietro una linea di partenza»
 
-Dipende da "Posizione e visibilità della linea di partenza" (Punto aperto M5), la linea di partenza non è ancora definita e non è verificabile
+La clausola «dietro la linea di partenza» non è formulata come criterio: sospesa finché la Milestone 5 non definisce la linea.
 
 ### CA-04 — Scelta del colore
 
