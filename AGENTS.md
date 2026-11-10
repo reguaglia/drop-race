@@ -7,6 +7,7 @@ gocce d'acqua su un finestrino. La fonte di verità è `docs/requirements.md`.
 ## Regole
 - Prima di lavorare leggi `docs/requirements.md` e i file rilevanti in `docs/`.
 - Leggi anche `docs/tasks/roadmap.md` per milestone e vincoli di processo.
+- I requisiti li modifica solo il committente; il business-analyst può scriverli in `docs/requirements.md` solo dopo conferma esplicita per ogni modifica.
 - Non modificare i requisiti. Se trovi un'ambiguità, segnalala: non decidere.
 - Non inventare regole di simulazione: proponile come decisioni da approvare.
 - Non implementare nulla che il task assegnato non richieda.

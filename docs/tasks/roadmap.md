@@ -5,7 +5,7 @@
 - Avviare OpenCode con OPENCODE_DISABLE_CLAUDE_CODE=1 per isolare il contesto globale.
 - Modello: Big Pickle per tutti gli agenti (gratuito, condizioni e limiti da verificare).
 - I requisiti li modifica solo il committente.
-- Gli agenti non producono documenti ufficiali: i deliverable dei subagent restano nell'Esito del task. Li promuove il committente, copiandoli in `docs/acceptance/`, `docs/adr/` o dove serve; promuovere significa approvare.
+- Gli agenti non producono documenti ufficiali: i deliverable dei subagent restano nell'Esito del task. Li promuove il committente, copiandoli in `docs/acceptance/`, `docs/adr/` o dove serve; promuovere significa approvare. Eccezione: i requisiti, con conferma e lettura del diff prima del commit.
 - Commit, push e operazioni Git importanti solo con approvazione umana.
 - Decisioni tecniche importanti: un file in `docs/adr/`.
 - Un task è completato solo dopo test e code review.
