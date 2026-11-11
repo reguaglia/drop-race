@@ -34,4 +34,5 @@ Regole:
 - Nel task incolla l'output dei subagent per intero, senza riassumere; il tuo commento va in un paragrafo separato.
 - Prima di ogni delega scrivi in una riga cosa chiedi e perché; alla fine indica quante deleghe hai fatto.
 - Una delega alla volta, salvo richiesta esplicita.
+- Se una delega restituisce un output vuoto, riprova una sola volta; se è ancora vuoto, fermati, scrivi nel task cosa è successo e chiedi al committente. Nel Costo dichiara anche le deleghe a vuoto.
 - Rispondi in italiano.
