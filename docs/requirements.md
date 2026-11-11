@@ -1,6 +1,6 @@
 # Requisiti
 
-Versione: 3.2
+Versione: 0.7
 
 Questo documento è la fonte di verità del progetto. Solo il committente può modificarlo.
 
@@ -13,7 +13,7 @@ L'utente prepara i concorrenti e configura le caratteristiche generali del fines
 ### Creazione delle gocce
 
 L'utente può:
-- Creare da 2 a 8 gocce dinamiche.
+- Avere da 0 a 8 gocce dinamiche nella configurazione; la gara può partire solo con almeno 2.
 - Scegliere la posizione iniziale x di ciascuna goccia; la quota è fissa, dietro una linea di partenza.
 - Scegliere il colore di ciascuna goccia.
 
@@ -29,7 +29,7 @@ La creazione di una goccia dinamica è immediata: il click o tap sul finestrino 
 
 Il posizionamento avviene tramite click o tap sul finestrino, rispettando una distanza minima tra le gocce.
 
-Le gocce dinamiche hanno raggio iniziale pari a 3 unità logiche. Al posizionamento, la distanza tra i bordi di due gocce dinamiche non può essere inferiore a un raggio (3 unità, cioè 9 unità tra i centri). Il vincolo vale solo al piazzamento e solo tra gocce dinamiche.
+Le gocce dinamiche hanno raggio pari a 3 unità logiche. Al posizionamento, la distanza tra i bordi di due gocce dinamiche non può essere inferiore a un raggio (3 unità, cioè 9 unità tra i centri). Il vincolo vale solo al piazzamento e solo tra gocce dinamiche.
 
 Del click o tap vale solo la coordinata x.
 
@@ -43,19 +43,15 @@ La linea di partenza si trova a 10 unità logiche dal bordo superiore del finest
 
 Prima dell'avvio della gara l'utente può modificare le gocce dinamiche già piazzate: eliminarle, spostarne la posizione x e cambiarne il colore. Lo spostamento avviene tramite trascinamento e segue le stesse regole del posizionamento: del punto di rilascio vale solo la coordinata x e la distanza minima tra i bordi delle gocce dinamiche deve restare rispettata.
 
-Condizioni del generatore:
-- Nessuna goccia statica, ostacolo o zona di aderenza si trova nella fascia di partenza né nel margine vuoto sotto la linea di partenza, di altezza pari alla distanza minima tra le gocce (3 unità).
-- Le gocce statiche non si sovrappongono tra loro.
-- La densità degli elementi generati non dipende dalla coordinata x: nessuna posizione orizzontale è favorita per costruzione.
-- Non sono richiesti né la simmetria del percorso né un percorso sempre libero: i blocchi sono temporanei.
-
-L'indipendenza della densità dalla coordinata x è garantita per costruzione: il generatore estrae le posizioni x degli elementi spaziali generati (gocce statiche, ostacoli, zone di aderenza) da una distribuzione uniforme sulla larghezza del finestrino. Le correnti d'aria, essendo eventi globali senza posizione orizzontale, non rientrano in questa verifica; le gocce dinamiche, la cui posizione x è scelta dall'utente, nemmeno. La verifica avviene esclusivamente nei test automatici della simulazione, in modo deterministico con seed fissi, su un numero limitato di casi e in forma aggregata su tutti i tipi di elemento: i test verificano che l'estrazione delle x avvenga dalla distribuzione uniforme. Non sono previsti test statistici estesi né monitoraggi della distribuzione durante l'esecuzione.
+L'indipendenza della densità dalla coordinata x è garantita per costruzione: il generatore estrae le posizioni x degli elementi spaziali generati (gocce statiche, ostacoli, zone di aderenza) da una distribuzione uniforme sulla larghezza del finestrino.
 
 ### Configurazione del finestrino
 
 L'utente può configurare:
 - Altezza del finestrino.
 - Livello degli ostacoli: basso, medio o alto.
+
+Gli «ostacoli spaziali» hanno una posizione sul finestrino e possono rallentare, deviare o bloccare; le correnti d'aria sono ostacoli globali con effetto di spinta. Il livello regola la quantità degli ostacoli spaziali e la frequenza delle correnti.
 
 Il livello degli ostacoli regola la quantità di ostacoli generati: basso, medio e alto corrispondono a quantità crescenti di ostacoli. La ripartizione tra i tipi di effetto (rallentare, deviare, bloccare) non dipende dal livello: tutti e tre i tipi possono comparire a ogni livello, basso compreso. I valori esatti delle quantità per ciascun livello sono definiti dal generatore procedurale.
 
@@ -79,6 +75,8 @@ Le correnti d'aria possono verificarsi a ogni livello di ostacoli, basso compres
 
 Le correnti d'aria costituiscono una famiglia di ostacoli con effetto proprio, la spinta: la regola sulla ripartizione tra i tipi di effetto degli ostacoli (rallentare, deviare, bloccare) riguarda gli ostacoli spaziali e non si applica alle correnti.
 
+Le correnti d'aria non agiscono sulle gocce bloccate: durante un blocco la goccia resta ferma anche se una corrente è attiva.
+
 Le zone di aderenza sono aree del finestrino, generate proceduralmente insieme al resto del percorso tramite il generatore pseudo-casuale con seed, e restano fisse per tutta la durata della gara. Ogni zona possiede un proprio coefficiente di aderenza, che regola l'attrito al moto: mentre una goccia dinamica si trova dentro una zona più aderente scorre più lentamente, dentro una zona meno aderente più velocemente. Fuori dalle zone si applica l'aderenza di base del finestrino. Le formule che traducono il coefficiente di aderenza in attrito sul moto sono demandate al modello matematico da approvare.
 
 Il numero e la disposizione delle zone sono estratti casualmente col seed, nel rispetto delle condizioni del generatore. I valori esatti dei coefficienti, del numero e della geometria delle zone sono definiti dal generatore procedurale.
@@ -87,17 +85,25 @@ L'utente non può scegliere il percorso.
 
 ### Movimento e ostacoli
 
+- Le quote si misurano dall'alto verso il basso: una quota maggiore indica una posizione più vicina al traguardo.
 - Le gocce dinamiche si muovono in 2D: possono deviare lateralmente.
 - I bordi laterali e il bordo superiore del finestrino si comportano come pareti su cui la goccia scivola: quando una goccia dinamica raggiunge uno di questi bordi, la componente della sua velocità perpendicolare al bordo viene azzerata, la componente parallela resta invariata e la goccia non va mai oltre il bordo. Il bordo inferiore non è una parete: è il traguardo, che la goccia dinamica supera completamente per vincere la gara.
 - Gli ostacoli, in base al tipo, possono rallentare, deviare o bloccare una goccia.
 - Un blocco non è mai permanente. All'inizio di ogni blocco viene estratta casualmente una durata compresa tra 1 e 3 secondi, tramite il generatore pseudo-casuale della simulazione: a parità di seed la sequenza delle durate estratte è deterministica.
-- Durante il blocco la goccia resta ferma, con velocità nulla. Alla fine del blocco la goccia riprende la velocità che aveva immediatamente prima dell'inizio del blocco.
+- Durante il blocco la goccia resta ferma, con velocità nulla. Alla fine del blocco la goccia riprende la velocità nominale che aveva immediatamente prima dell'inizio del blocco con l'eventuale boost secondo la sezione «Boost temporaneo di
+velocità».
 - Durante il blocco le regole di contatto e di inglobamento restano valide in entrambe le direzioni: la goccia bloccata può inglobare le gocce con cui viene a contatto e può essere inglobata da una goccia dinamica di potenza superiore.
 - Se una goccia bloccata ingloba un'altra goccia, il blocco termina immediatamente, anche se la durata estratta non è ancora scaduta: la goccia riprende il movimento con la velocità che aveva immediatamente prima dell'inizio del blocco e si applicano tutti gli effetti dell'inglobamento. Se una goccia bloccata viene inglobata, il blocco non si trasferisce alla goccia che ingloba.
 
 ### Generazione procedurale
 
 Il percorso deve essere generato casualmente a ogni gara.
+
+Condizioni del generatore:
+- Nessuna goccia statica, ostacolo o zona di aderenza si trova nella fascia di partenza né nel margine vuoto sotto la linea di partenza, di altezza pari alla distanza minima tra le gocce (3 unità).
+- Le gocce statiche non si sovrappongono tra loro.
+- La densità degli elementi generati non dipende dalla coordinata x: nessuna posizione orizzontale è favorita per costruzione.
+- Non sono richiesti né la simmetria del percorso né un percorso sempre libero: i blocchi sono temporanei.
 
 Deve essere possibile ottenere percorsi differenti mantenendo le stesse impostazioni generali.
 
@@ -163,8 +169,8 @@ Se una goccia dinamica ingloba un'altra goccia:
 Ogni inglobamento, di una goccia statica o dinamica, produce un aumento temporaneo di velocità della goccia che ingloba. Il boost è un moltiplicatore ×1,1 applicato alla velocità, con durata 200 ms.
 
 Esempio (valori puramente esemplificativi):
-- Velocità nominale: 1 cm/s.
-- Velocità durante il boost: 1,1 cm/s.
+- Velocità nominale: 1 unità/s.
+- Velocità durante il boost: 1,1 unità/s.
 - Durata: 200 ms.
 
 Se durante il boost avviene un altro inglobamento:
@@ -183,7 +189,7 @@ Il timer del boost è misurato in tempo simulato e continua a scorrere anche men
 
 La sequenza è:
 
-1. L'utente crea da 2 a 8 gocce dinamiche.
+1. L'utente prepara da 2 a 8 gocce dinamiche.
 2. Configura altezza e livello degli ostacoli.
 3. Il sistema genera il percorso casuale.
 4. Parte il conto alla rovescia.
@@ -196,11 +202,11 @@ Il conto alla rovescia dura 3 secondi e avanza in tempo reale, non in tempo simu
 
 Durante il conto alla rovescia la configurazione è congelata: non è possibile piazzare, spostare, eliminare o ricolorare gocce, né modificare l'altezza del finestrino o il livello degli ostacoli. Tutti i controlli di configurazione e di modifica delle gocce risultano disattivati dal momento in cui il conto alla rovescia ha inizio fino al termine della gara.
 
-Il traguardo coincide con il bordo inferiore del finestrino. Una goccia dinamica raggiunge il traguardo quando è interamente oltre il bordo inferiore del finestrino, cioè quando il suo punto più alto si trova oltre il bordo inferiore: il centro è a una quota pari all'altezza del finestrino più 3 unità logiche.
+Il traguardo coincide con il bordo inferiore del finestrino. Una goccia dinamica raggiunge il traguardo quando è interamente oltre il bordo inferiore del finestrino: il centro è a una quota pari all'altezza del finestrino più 3 unità logiche.
 
-Se più gocce dinamiche raggiungono il traguardo nello stesso passo di tempo, la gara termina in quel passo e vince la goccia che ha superato maggiormente il traguardo, cioè quella con la quota del centro più alta. In caso di quota identica, vince la goccia con la coordinata x minore.
+Se più gocce dinamiche raggiungono il traguardo nello stesso passo di tempo, la gara termina in quel passo e vince la goccia che ha superato maggiormente il traguardo, cioè quella con la quota maggiore. In caso di quota identica, vince la goccia con la coordinata x minore.
 
-Quando una goccia raggiunge il traguardo, la partita termina immediatamente.
+La partita termina nel passo di tempo in cui almeno una goccia dinamica raggiunge il traguardo: il vincitore è determinato come sopra e non vengono eseguiti ulteriori passi.
 
 La gara termina anche per timeout: se entro 300 secondi di tempo simulato nessuna goccia dinamica ha raggiunto il traguardo, la gara termina senza vincitore. Il timeout è misurato in tempo simulato, lo stesso tempo in cui sono espresse la durata dei blocchi e del boost, indipendente dal tempo reale.
 
@@ -267,4 +273,6 @@ Non vanno introdotte proprietà fisiche non concordate senza presentarle prima c
 
 ## Punti aperti
 
+- Larghezza massima del finestrino su schermi larghi: Milestone 5.
 - Significato di "fisica intermedia" (il modello matematico): Milestone 6.
+- Durata tipica di una gara all'altezza predefinita e relazione con il timeout di 300 secondi (obiettivo di taratura del modello): Milestone 6.
