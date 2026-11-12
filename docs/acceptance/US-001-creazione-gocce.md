@@ -1,94 +1,113 @@
 # US-001 — Creazione delle gocce
 
 Stato: approvata
-Origine: T-001 v2, corretta secondo la revisione T-002
+Requisiti: versione 0.8
+Origine: T-004 (storie), T-005 (revisione), riscrittura finale su autorizzazione del committente
 
-## User story
+Salvo US-4, tutti i criteri valgono in fase di configurazione, cioè prima dell'inizio del conto alla rovescia. Per "punto libero" si intende un punto del finestrino non interno al cerchio di una goccia.
 
-Come utente che prepara i concorrenti, voglio creare da 2 a 8 gocce dinamiche scegliendo per ciascuna la posizione iniziale x, con quota fissa dietro la linea di partenza, e il colore, per avere concorrenti pronti che partano con le stesse proprietà fisiche iniziali e con il colore solo estetico.
+## US-1 — Piazzare una goccia dinamica
 
-## Criteri di accettazione
+Come utente voglio piazzare una goccia dinamica con un click o tap sul finestrino per schierare un concorrente nella posizione x che preferisco.
 
-### CA-01 — Numero di gocce minore o uguale a 8
+### Criteri di accettazione
 
-**Dato** che l'utente crea i concorrenti,
-**quando** crea gocce dinamiche,
-**allora** il numero totale di gocce dinamiche non supera 8.
+1.1 **Dato** che il click o tap avviene fuori dal finestrino, indipendentemente dal numero di gocce presenti, **quando** viene eseguito, **allora** non viene creata alcuna goccia e non compare alcun messaggio.
+> «Fuori dal finestrino: nessun effetto e nessun messaggio.»
 
-«Creare da 2 a 8 gocce dinamiche.»
+1.2 **Dato** che sono presenti 8 gocce dinamiche e il click o tap avviene dentro il finestrino su un punto libero, **quando** viene eseguito, **allora** nessuna goccia viene creata e l'interfaccia informa che è stato raggiunto il numero massimo.
+> «Con 8 gocce presenti: la goccia non viene creata e l'interfaccia informa che è stato raggiunto il numero massimo.»
 
-### CA-02 — Posizione tramite click o tap, usando solo la x
+1.3 **Dato** che sono presenti meno di 8 gocce, il click o tap avviene dentro il finestrino su un punto libero a meno di 3 unità logiche da un bordo laterale e la posizione agganciata rispetta la distanza minima, **quando** viene eseguito, **allora** la goccia viene creata con il centro a x = 3 (bordo sinistro) oppure x = 97 (bordo destro).
+> «Aggancio: se la x è a meno di 3 unità logiche da un bordo laterale, il centro viene agganciato a x = 3 o x = 97.»
 
-**Dato** il finestrino visualizzato,
-**quando** l'utente esegue un click o un tap e la goccia viene posizionata,
-**allora** la sua coordinata x è quella del punto e la coordinata y del click o tap non incide.
+1.4 **Dato** che sono presenti meno di 8 gocce, il click o tap avviene dentro il finestrino su un punto libero e la posizione, dopo l'eventuale aggancio, dista meno di 9 unità tra i centri da una goccia presente, **quando** viene eseguito, **allora** nessuna goccia viene creata e l'interfaccia informa che la posizione è troppo vicina a un'altra goccia.
+> «Distanza minima, verificata sulla posizione dopo l'aggancio: se non è rispettata, la goccia non viene creata e l'interfaccia informa che la posizione è troppo vicina a un'altra goccia.»
+> «non può essere inferiore a un raggio (3 unità, cioè 9 unità tra i centri)»
 
-«Del click o tap vale solo la coordinata x.»
+1.5 **Dato** che sono presenti meno di 8 gocce, il click o tap avviene dentro il finestrino su un punto libero e la posizione, dopo l'eventuale aggancio, rispetta la distanza minima, **quando** viene eseguito, **allora** la goccia viene creata all'istante.
+> «se riesce, piazza la goccia all'istante.»
+> «In tutti gli altri casi la goccia viene creata.»
 
-### CA-03 — Quota fissa e comune
+1.6 **Dato** che il click o tap avviene a una quota qualsiasi, **quando** la goccia viene creata, **allora** la quota del click non ha effetto: il suo centro è a 7 unità logiche dal bordo superiore e, con raggio 3, il bordo inferiore poggia sulla linea di partenza (10 unità dal bordo superiore), con la goccia interamente dietro di essa.
+> «Del click o tap vale solo la coordinata x.»
+> «I centri delle gocce dinamiche si trovano a 7 unità logiche dal bordo superiore»
+> «ogni goccia poggia con il bordo inferiore sulla linea di partenza ed è interamente dietro di essa»
 
-**Dato** un insieme di gocce dinamiche,
-**quando** una goccia dinamica viene creata,
-**allora** tutte hanno la stessa coordinata y, fissa e non scelta dall'utente.
+1.7 **Dato** che il finestrino è mostrato, **quando** osservo la zona di partenza, **allora** la linea di partenza (a 10 unità logiche dal bordo superiore) non è visualizzata.
+> «La linea di partenza si trova a 10 unità logiche dal bordo superiore del finestrino e non è visualizzata.»
 
-«la quota è fissa, dietro una linea di partenza»
+## US-2 — Scegliere e cambiare il colore
 
-La clausola «dietro la linea di partenza» non è formulata come criterio: sospesa finché la Milestone 5 non definisce la linea.
+Come utente voglio scegliere e cambiare il colore di ogni goccia da una palette fissa per distinguere i concorrenti a colpo d'occhio.
 
-### CA-04 — Scelta del colore
+### Criteri di accettazione
 
-**Dato** una goccia dinamica,
-**quando** l'utente sceglie un colore per quella goccia,
-**allora** la goccia assume il colore scelto.
+2.1 **Dato** che la palette è mostrata, **quando** la osservo, **allora** contiene 8 colori distinti definiti dal sistema.
+> «una palette fissa di 8 colori distinti, definiti dal sistema»
 
-«Scegliere il colore di ciascuna goccia.»
+2.2 **Dato** che un colore è utilizzato da una goccia presente, **quando** la palette è mostrata, **allora** quel colore non è selezionabile.
+> «I colori già utilizzati dalle gocce presenti non sono selezionabili nella palette.»
 
-### CA-05 — Stesse proprietà fisiche iniziali
+2.3 **Dato** che nessuna goccia è selezionata e ho scelto un colore non utilizzato per la goccia successiva, **quando** una goccia viene creata, **allora** nasce con il colore scelto.
+> «La goccia nasce con il colore scelto nella palette per la goccia successiva»
 
-**Dato** due gocce dinamiche create con coordinate x diverse e colori diversi,
-**quando** vengono create,
-**allora** tutte le loro proprietà fisiche iniziali sono uguali.
+2.4 **Dato** che nessun colore è stato scelto per la goccia successiva, **quando** una goccia viene creata, **allora** riceve il primo colore della palette non utilizzato dalle gocce presenti.
+> «se nessuno è stato scelto, con il primo colore della palette non utilizzato dalle gocce presenti»
 
-«Le gocce dinamiche hanno tutte le stesse proprietà fisiche iniziali.»
+2.5 **Dato** che avevo scelto un colore per la goccia successiva, **quando** una goccia viene creata, **allora** la scelta viene rimossa: la goccia successiva, senza una nuova scelta, riceve il primo colore non utilizzato dalle gocce presenti.
+> «Dopo ogni piazzamento riuscito la scelta del colore per la goccia successiva viene rimossa.»
 
-Dipende da: «Significato di "fisica intermedia" (il modello matematico)» (Punto aperto Milestone 6) per l'elenco delle proprietà fisiche da confrontare.
+2.6 **Dato** che una goccia è selezionata e la palette offre un colore non utilizzato da altre gocce, **quando** lo scelgo, **allora** la goccia selezionata assume quel colore.
+> «la scelta di un colore nella palette ne cambia il colore, purché non sia utilizzato da altre gocce presenti»
 
-### CA-06 — Colore irrilevante sulla simulazione
+2.7 **Dato** che sono presenti 8 gocce e una è selezionata, **quando** tento di cambiarne il colore, **allora** il suo colore non cambia.
+> «con 8 gocce presenti il cambio di colore non è possibile»
 
-**Dato** due configurazioni identiche per numero, coordinate x e proprietà fisiche, ma con colori diversi,
-**quando** viene eseguita la simulazione a parità di ogni altra condizione,
-**allora** il colore non modifica le proprietà fisiche né il comportamento delle gocce e l'evoluzione simulata è la stessa con identico stato iniziale e passi di tempo fissi.
+## US-3 — Selezionare, spostare ed eliminare le gocce
 
-«Il colore è esclusivamente estetico e non influenza la simulazione.»; «I test possono far avanzare la simulazione a passi di tempo fissi»; «La logica deve essere testabile in modo deterministico.»
+Come utente voglio selezionare, spostare ed eliminare le gocce già piazzate per correggere la configurazione senza ricominciare.
 
-### CA-07 — Distanza minima rispettata
+### Criteri di accettazione
 
-**Dato** un insieme di gocce già posizionate che rispetta la soglia minima vigente,
-**quando** l'utente tenta di posizionare una nuova goccia con click o tap,
-**allora** al termine del tentativo nessuna coppia di gocce presenti è a distanza inferiore alla soglia minima, qualunque sia il comportamento adottato dal sistema.
+3.1 **Dato** che una goccia è presente, **quando** clicco o tocco un punto interno al suo cerchio, **allora** la goccia viene selezionata, nessun'altra goccia resta selezionata e non viene tentato alcun piazzamento.
+> «Un click o tap su una goccia dinamica già presente, cioè su un punto interno al suo cerchio, la seleziona; non è un tentativo di piazzamento.»
+> «È selezionata al massimo una goccia»
 
-«rispettando una distanza minima tra le gocce.»
+3.2 **Dato** che una goccia è selezionata, **quando** clicco di nuovo la stessa goccia oppure un piazzamento riesce, **allora** la goccia viene deselezionata.
+> «un secondo click o tap sulla goccia selezionata la deseleziona»
+> «un piazzamento riuscito deseleziona la goccia selezionata»
 
-Dipende da: «Distanza minima tra le gocce» (Punto aperto Milestone 4) per il valore; il comportamento sotto soglia è in «Da decidere».
+3.3 **Dato** che una goccia è presente e il rilascio di un trascinamento è dentro il finestrino con la posizione, dopo l'eventuale aggancio, a distanza minima rispettata, **quando** trascino e rilascio la goccia, **allora** la goccia risulta selezionata e il suo centro si trova alla coordinata x del rilascio, a 7 unità logiche dal bordo superiore.
+> «Lo spostamento avviene tramite trascinamento, che seleziona la goccia trascinata»
+> «del punto di rilascio vale solo la coordinata x, che viene agganciata al bordo se necessario»
 
-### CA-08 — Numero di gocce maggiore o uguale a 2
+3.4 **Dato** che il rilascio avviene dentro il finestrino a meno di 3 unità logiche da un bordo laterale e la posizione agganciata rispetta la distanza minima, **quando** rilascio, **allora** il centro della goccia è a x = 3 oppure x = 97.
+> «il centro viene agganciato a x = 3 o x = 97»
 
-**Dato** che l'utente crea i concorrenti,
-**quando** le gocce iniziano a muoversi,
-**allora** il numero totale di gocce dinamiche create non è minore di 2.
+3.5 **Dato** che il rilascio avviene fuori dal finestrino oppure in una posizione che, dopo l'aggancio, non rispetta la distanza minima, **quando** rilascio, **allora** la goccia torna alla posizione che occupava prima del trascinamento e non compare alcun messaggio.
+> «Se il rilascio avviene fuori dal finestrino o in una posizione che, anche dopo l'aggancio, non rispetta la distanza minima»
+> «la goccia torna alla posizione che occupava prima del trascinamento; non viene mostrato alcun messaggio.»
 
-«Creare da 2 a 8 gocce dinamiche.»
+3.6 **Dato** che sono presenti 8 gocce e una è selezionata, **quando** la elimino, **allora** ne restano 7 e un nuovo piazzamento valido ha effetto.
+> «Una goccia selezionata può essere ricolorata, spostata o eliminata.»
+> «eliminarne una permette di crearne una nuova.»
 
-Dipende da: «tentativo di avvio con meno di 2 gocce» (Punto aperto Milestone 5)
+3.7 **Dato** che elimino la goccia selezionata, **quando** la palette è mostrata, **allora** il colore che quella goccia usava non risulta più utilizzato ed è di nuovo selezionabile.
+> «I colori già utilizzati dalle gocce presenti non sono selezionabili nella palette.»
 
-## Da decidere
+## US-4 — Configurazione bloccata dopo l'avvio
 
-- Valore della distanza minima tra le gocce (Punto aperto Milestone 4); da chiarire anche il criterio di misura (ambiguità derivata, non testo del requisito).
-- Comportamento quando il click o tap cade a distanza inferiore alla minima, fuori dai bordi del finestrino o sulla linea di partenza (Punto aperto Milestone 5).
-- Posizione e visibilità della linea di partenza (Punto aperto Milestone 5).
-- Comportamento al tentativo di creare più di 8 gocce o di avviare con meno di 2 (Punto aperto Milestone 5).
-- Modalità di scelta del colore: palette o colore libero, colori distinti o ripetibili, colore predefinito (Punto aperto Milestone 5).
-- Momento della creazione, immediato o con conferma, e ordine tra posizione e colore (Punto aperto Milestone 5).
-- Dimensione delle gocce dinamiche (Punto aperto Milestone 6).
+Come utente voglio che le gocce non cambino dopo l'inizio del conto alla rovescia per correre con la configurazione che ho preparato.
 
-Da delegare ad Architect/Simulation: unità e mapping della coordinata x, verifica deterministica dell'irrilevanza del colore.
+### Criteri di accettazione
+
+4.1 **Dato** che il conto alla rovescia è iniziato o la gara è in corso, **quando** clicco, tocco o trascino sul finestrino oppure uso la palette, **allora** nessuna goccia viene creata, selezionata, spostata, eliminata o ricolorata.
+> «non è possibile piazzare, spostare, eliminare o ricolorare gocce»
+> «sono possibili solo in fase di configurazione, cioè prima dell'inizio del conto alla rovescia»
+
+## Non coperto
+
+- «Le gocce dinamiche hanno tutte le stesse proprietà fisiche iniziali.»: la verifica dipende dal modello fisico (Punto aperto M6).
+- L'irrilevanza del colore sulla simulazione: richiede la simulazione, fuori perimetro.
+- Meccanica del trascinamento, area di presa, resa dei messaggi, ordine dei colori della palette, controllo di eliminazione: scelte tecniche e di interfaccia, da delegare ad Architect.
