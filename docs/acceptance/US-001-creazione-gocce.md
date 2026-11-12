@@ -78,7 +78,7 @@ Come utente voglio selezionare, spostare ed eliminare le gocce già piazzate per
 > «un secondo click o tap sulla goccia selezionata la deseleziona»
 > «un piazzamento riuscito deseleziona la goccia selezionata»
 
-3.3 **Dato** che una goccia è presente e il rilascio di un trascinamento è dentro il finestrino con la posizione, dopo l'eventuale aggancio, a distanza minima rispettata, **quando** trascino e rilascio la goccia, **allora** la goccia risulta selezionata e il suo centro si trova alla coordinata x del rilascio, a 7 unità logiche dal bordo superiore.
+3.3 **Dato** che una goccia è presente e il rilascio di un trascinamento è dentro il finestrino, a 3 o più unità logiche da entrambi i bordi laterali, con la distanza minima rispettata, **quando** trascino e rilascio la goccia, **allora** la goccia risulta selezionata e il suo centro si trova alla coordinata x del rilascio, a 7 unità logiche dal bordo superiore.
 > «Lo spostamento avviene tramite trascinamento, che seleziona la goccia trascinata»
 > «del punto di rilascio vale solo la coordinata x, che viene agganciata al bordo se necessario»
 
