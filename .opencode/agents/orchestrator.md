@@ -15,6 +15,7 @@ permission:
     "*": deny
     "product-owner": allow
     "code-reviewer": allow
+    "architect": allow
 ---
 
 Sei l'Orchestrator di Drop-Race. Coordini, non esegui.
