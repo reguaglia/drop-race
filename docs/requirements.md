@@ -1,6 +1,6 @@
 # Requisiti
 
-Versione: 0.7
+Versione: 0.8
 
 Questo documento è la fonte di verità del progetto. Solo il committente può modificarlo.
 
@@ -17,7 +17,7 @@ L'utente può:
 - Scegliere la posizione iniziale x di ciascuna goccia; la quota è fissa, dietro una linea di partenza.
 - Scegliere il colore di ciascuna goccia.
 
-Quando sono già presenti 8 gocce dinamiche, il tentativo di posizionarne un'altra non ha effetto: la goccia non viene creata e l'interfaccia informa l'utente che è stato raggiunto il numero massimo. Il limite di 8 si riferisce alle gocce presenti: eliminarne una permette di crearne una nuova.
+Il limite di 8 si riferisce alle gocce dinamiche presenti: eliminarne una permette di crearne una nuova.
 
 Le gocce dinamiche hanno tutte le stesse proprietà fisiche iniziali.
 
@@ -25,23 +25,28 @@ Il colore è esclusivamente estetico e non influenza la simulazione.
 
 La scelta del colore avviene tramite una palette fissa di 8 colori distinti, definiti dal sistema e coerenti con lo stile cartoon. Se l'utente piazza una goccia senza aver scelto un colore, le viene assegnato il primo colore della palette non utilizzato dalle gocce presenti. Un colore già utilizzato da una goccia presente non può essere assegnato a un'altra goccia: due gocce presenti hanno sempre colori diversi. I colori già utilizzati dalle gocce presenti non sono selezionabili nella palette.
 
-La creazione di una goccia dinamica è immediata: il click o tap sul finestrino piazza la goccia all'istante. La goccia nasce con il colore selezionato nella palette oppure, se nessun colore è selezionato, con il primo colore della palette non utilizzato dalle gocce presenti. L'ordine delle azioni è libero: l'utente può selezionare il colore prima del piazzamento oppure piazzare la goccia e cambiarne il colore successivamente.
-
 Il posizionamento avviene tramite click o tap sul finestrino, rispettando una distanza minima tra le gocce.
 
 Le gocce dinamiche hanno raggio pari a 3 unità logiche. Al posizionamento, la distanza tra i bordi di due gocce dinamiche non può essere inferiore a un raggio (3 unità, cioè 9 unità tra i centri). Il vincolo vale solo al piazzamento e solo tra gocce dinamiche.
 
 Del click o tap vale solo la coordinata x.
 
-Un click o tap al di fuori del finestrino non produce piazzamenti né messaggi.
+Un click o tap su un punto libero del finestrino è un tentativo di piazzamento e, se riesce, piazza la goccia all'istante. La goccia nasce con il colore scelto nella palette per la goccia successiva oppure, se nessuno è stato scelto, con il primo colore della palette non utilizzato dalle gocce presenti. Dopo ogni piazzamento riuscito la scelta del colore per la goccia successiva viene rimossa. L'utente può scegliere il colore prima del piazzamento oppure piazzare la goccia e cambiarne il colore successivamente, selezionandola.
 
-Se la coordinata x del click o tap è a meno di 3 unità logiche da un bordo laterale, la goccia viene comunque creata e il suo centro viene agganciato a 3 unità logiche dal bordo più vicino (x = 3 o x = 97). La posizione risultante, anche dopo l'aggancio, è soggetta alla distanza minima tra le gocce: se non la rispetta, la goccia non viene creata e l'interfaccia informa l'utente che la posizione è troppo vicina a un'altra goccia.
+Un tentativo di piazzamento è valutato in quest'ordine:
+1. Fuori dal finestrino: nessun effetto e nessun messaggio.
+2. Con 8 gocce presenti: la goccia non viene creata e l'interfaccia informa che è stato raggiunto il numero massimo.
+3. Aggancio: se la x è a meno di 3 unità logiche da un bordo laterale, il centro viene agganciato a x = 3 o x = 97.
+4. Distanza minima, verificata sulla posizione dopo l'aggancio: se non è rispettata, la goccia non viene creata e l'interfaccia informa che la posizione è troppo vicina a un'altra goccia.
+In tutti gli altri casi la goccia viene creata.
 
-Il rilascio di un trascinamento segue le stesse regole: la coordinata x viene agganciata al bordo se necessario. Se il rilascio avviene fuori dal finestrino o se la posizione di rilascio, anche dopo l'aggancio, non rispetta la distanza minima, la goccia torna alla posizione che occupava prima del trascinamento.
+Selezione e modifica. Un click o tap su una goccia dinamica già presente, cioè su un punto interno al suo cerchio, la seleziona; non è un tentativo di piazzamento. È selezionata al massimo una goccia: un secondo click o tap sulla goccia selezionata la deseleziona, e un piazzamento riuscito deseleziona la goccia selezionata. Una goccia selezionata può essere ricolorata, spostata o eliminata. Con una goccia selezionata, la scelta di un colore nella palette ne cambia il colore, purché non sia utilizzato da altre gocce presenti: con 8 gocce presenti il cambio di colore non è possibile. Senza gocce selezionate, la scelta di un colore determina quello della goccia successiva.
+
+Lo spostamento avviene tramite trascinamento, che seleziona la goccia trascinata, e segue le stesse regole del piazzamento: del punto di rilascio vale solo la coordinata x, che viene agganciata al bordo se necessario, e la distanza minima tra i bordi delle gocce dinamiche deve restare rispettata. Se il rilascio avviene fuori dal finestrino o in una posizione che, anche dopo l'aggancio, non rispetta la distanza minima, la goccia torna alla posizione che occupava prima del trascinamento; non viene mostrato alcun messaggio.
+
+Il piazzamento, la selezione, lo spostamento, la ricolorazione e l'eliminazione delle gocce sono possibili solo in fase di configurazione, cioè prima dell'inizio del conto alla rovescia.
 
 La linea di partenza si trova a 10 unità logiche dal bordo superiore del finestrino e non è visualizzata. I centri delle gocce dinamiche si trovano a 7 unità logiche dal bordo superiore: con raggio 3, ogni goccia poggia con il bordo inferiore sulla linea di partenza ed è interamente dietro di essa. La fascia di partenza è la zona compresa tra il bordo superiore del finestrino e la linea di partenza, alta 10 unità logiche.
-
-Prima dell'avvio della gara l'utente può modificare le gocce dinamiche già piazzate: eliminarle, spostarne la posizione x e cambiarne il colore. Lo spostamento avviene tramite trascinamento e segue le stesse regole del posizionamento: del punto di rilascio vale solo la coordinata x e la distanza minima tra i bordi delle gocce dinamiche deve restare rispettata.
 
 L'indipendenza della densità dalla coordinata x è garantita per costruzione: il generatore estrae le posizioni x degli elementi spaziali generati (gocce statiche, ostacoli, zone di aderenza) da una distribuzione uniforme sulla larghezza del finestrino.
 

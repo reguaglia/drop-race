@@ -35,3 +35,4 @@
 - Test ripetuti sul comportamento degli agenti (non è deterministico).
 - Valutare la migrazione a OpenCode V2.
 - Valutare context7 per gli agenti di sviluppo (negato al Product Owner).
+- Tasso di deleghe vuote 4/10, concentrato sul Reviewer con requisiti lunghi; ipotesi: contesto. Test: passargli solo l’estratto rilevante.
