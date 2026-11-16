@@ -9,6 +9,8 @@
 - Gli agenti (developer) possono fare commit, push su branch `task/*` e aprire pull request; `main` è protetta su GitHub. La review finale e il merge su `main` spettano al committente. Le operazioni distruttive richiedono approvazione umana.
 - Decisioni tecniche importanti: un file in `docs/adr/`.
 - Un task è completato solo dopo test e code review.
+- Dipendenze: versioni esatte, mai pubblicate da meno di 14 giorni. `npm install` e ogni modifica a `package.json` sono solo umani.
+- `main` è protetta: ogni modifica, anche ai documenti, passa da un branch e da una pull request; il merge è del committente.
 
 ## Milestone
 1. Preparazione dell'ambiente: completata.
