@@ -11,7 +11,7 @@ gocce d'acqua su un finestrino. La fonte di verità è `docs/requirements.md`.
 - Non modificare i requisiti. Se trovi un'ambiguità, segnalala: non decidere.
 - Non inventare regole di simulazione: proponile come decisioni da approvare.
 - Non implementare nulla che il task assegnato non richieda.
-- Non fare commit, push o operazioni Git distruttive senza approvazione esplicita.
+- Git: solo l'agente developer può creare branch `task/*`, fare commit, push e aprire pull request, e solo su quei branch. Mai su `main`, mai merge, mai force push, mai reset o cancellazioni. I commit degli agenti iniziano con `agent(<nome>):`.
 - Un task non è completato finché i test non sono stati eseguiti.
 
 ## Struttura di docs/
