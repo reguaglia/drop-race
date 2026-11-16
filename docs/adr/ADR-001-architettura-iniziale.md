@@ -1,6 +1,6 @@
 # ADR-001 — Architettura iniziale
 
-Stato: proposto
+Stato: approvato
 Data: 16 novembre 2026
 Origine: T-006 (proposta dell'Architect), T-007 (revisione), decisioni R1–R5 del committente
 Requisiti: versione 0.8
@@ -133,7 +133,7 @@ export declare function createRace(
 - Verifica automatica dei confini (tsconfig senza libreria DOM per `simulation` e `game`, controllo degli import): da definire in Milestone 5; nessuna libreria senza approvazione.
 - Il contratto di `game` (comandi dell'utente e vista) si definisce all'inizio di M5 sulle storie US-1–US-4.
 
-## Assunzioni da confermare
+## Assunzioni confermate dal committente
 - A1. La potenza compare nello snapshot, senza essere mostrata all'utente, perché serve ai test.
 - A2. La sorgente di entropia per il seed è iniettata da `app`: `game` non chiama né `Math.random` né `crypto`.
 - A3. Il conto alla rovescia (tempo reale) è gestito da `game`; durante il conto alla rovescia il motore non esiste ancora.
