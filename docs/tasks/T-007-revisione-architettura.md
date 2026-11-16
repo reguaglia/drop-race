@@ -1,6 +1,6 @@
 # T-007: Revisione della proposta di architettura
 
-Stato: in revisione
+Stato: chiuso
 Esecutore: code-reviewer
 Milestone: 4
 Dipendenze: T-006
@@ -46,6 +46,7 @@ Rivedere la proposta di architettura dell'Esito di T-006 (decisioni D1, D2, D3 e
 - Le sei ambiguità segnalate in T-006 restano da decidere: la revisione non le risolve.
 
 ## Esito
+5 voci, tutte accettate e integrate nell'ADR-001, insieme ai rilievi del committente.
 
 ## Revisione (T-007)
 
