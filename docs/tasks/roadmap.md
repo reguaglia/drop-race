@@ -11,6 +11,7 @@
 - Un task è completato solo dopo test e code review.
 - Dipendenze: versioni esatte, mai pubblicate da meno di 14 giorni. `npm install` e ogni modifica a `package.json` sono solo umani.
 - `main` è protetta: ogni modifica, anche ai documenti, passa da un branch e da una pull request; il merge è del committente.
+- Merge delle pull request: squash and merge, titolo T-0NN: ....
 
 ## Milestone
 1. Preparazione dell'ambiente: completata.
