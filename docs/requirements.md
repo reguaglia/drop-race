@@ -1,6 +1,6 @@
 # Requisiti
 
-Versione: 0.8
+Versione: 0.9
 
 Questo documento è la fonte di verità del progetto. Solo il committente può modificarlo.
 
@@ -41,6 +41,8 @@ Un tentativo di piazzamento è valutato in quest'ordine:
 In tutti gli altri casi la goccia viene creata.
 
 Selezione e modifica. Un click o tap su una goccia dinamica già presente, cioè su un punto interno al suo cerchio, la seleziona; non è un tentativo di piazzamento. È selezionata al massimo una goccia: un secondo click o tap sulla goccia selezionata la deseleziona, e un piazzamento riuscito deseleziona la goccia selezionata. Una goccia selezionata può essere ricolorata, spostata o eliminata. Con una goccia selezionata, la scelta di un colore nella palette ne cambia il colore, purché non sia utilizzato da altre gocce presenti: con 8 gocce presenti il cambio di colore non è possibile. Senza gocce selezionate, la scelta di un colore determina quello della goccia successiva.
+
+Se la scelta di un colore per la goccia successiva coincide con il colore che una goccia selezionata assume in seguito a una ricolorazione, la scelta per la goccia successiva viene rimossa. Un tentativo di piazzamento non riuscito lascia invariate la selezione e la scelta del colore per la goccia successiva.
 
 Lo spostamento avviene tramite trascinamento, che seleziona la goccia trascinata, e segue le stesse regole del piazzamento: del punto di rilascio vale solo la coordinata x, che viene agganciata al bordo se necessario, e la distanza minima tra i bordi delle gocce dinamiche deve restare rispettata. Se il rilascio avviene fuori dal finestrino o in una posizione che, anche dopo l'aggancio, non rispetta la distanza minima, la goccia torna alla posizione che occupava prima del trascinamento; non viene mostrato alcun messaggio.
 
