@@ -61,6 +61,9 @@ describe('createRace (T-012 stub, ADR-001 simulation contract)', () => {
 
     expect(result.snapshot).toEqual(initialSnapshot);
     expect(result.events).toEqual([]);
+    expect(result.snapshot.tick).toBe(0);
+    expect(result.snapshot.droplets[0].x).toBe(10);
+    expect(result.snapshot.droplets[1].x).toBe(20);
   });
 
   it('keeps getSnapshot equal to the initial snapshot after advance (T-012 acceptance 3; ADR-001 invariant 5)', () => {
@@ -69,23 +72,20 @@ describe('createRace (T-012 stub, ADR-001 simulation contract)', () => {
 
     engine.advance(16);
 
-    expect(engine.getSnapshot()).toEqual(initialSnapshot);
+    const afterAdvance = engine.getSnapshot();
+
+    expect(afterAdvance).toEqual(initialSnapshot);
+    expect(afterAdvance.tick).toBe(0);
+    expect(afterAdvance.droplets[0].x).toBe(10);
+    expect(afterAdvance.droplets[1].x).toBe(20);
   });
 
-  it('returns the state supplied by createRng from getRngState before and after advance (T-012 acceptance 3; ADR-001 invariant 1)', () => {
-    const rngState: RngState = { serialized: 'injected-rng-state' };
-    const rng: Rng = {
-      next: () => 0.5,
-      getState: () => rngState,
-    };
-    const deps: RaceDependencies = { createRng: () => rng };
-    const engine = createRace(makeConfig(), 9, deps);
+  it('returns its own injected state from getRngState for each engine (T-012 acceptance 3; ADR-001 invariant 1)', () => {
+    const engineA = createRace(makeConfig(), 9, makeDeps(() => makeRng('stato-A')));
+    const engineB = createRace(makeConfig(), 9, makeDeps(() => makeRng('stato-B')));
 
-    expect(engine.getRngState()).toEqual(rngState);
-
-    engine.advance(16);
-
-    expect(engine.getRngState()).toEqual(rngState);
+    expect(engineA.getRngState()).toEqual({ serialized: 'stato-A' });
+    expect(engineB.getRngState()).toEqual({ serialized: 'stato-B' });
   });
 
   it('exposes the seed passed to createRace (ADR-001 SimulationEngine contract)', () => {
@@ -137,6 +137,15 @@ describe('createRace (T-012 stub, ADR-001 simulation contract)', () => {
       obstacles: [],
       outcome: null,
     });
+  });
+
+  it('does not let mutation of the snapshot returned by advance alter engine state (ADR-001 invariant 5)', () => {
+    const engine = createRace(makeConfig(), 1, makeDeps());
+    const result = engine.advance(16);
+
+    (result.snapshot as { tick: number }).tick = 42;
+
+    expect(engine.getSnapshot().tick).toBe(0);
   });
 
   it('throws for NaN, Infinity and negative elapsedMs (ADR-001 A4)', () => {
