@@ -1,6 +1,6 @@
 # ADR-002 — Contratto del modulo `game`
 
-Stato: aprovato
+Stato: approvato
 Data: 18 novembre 2026
 Origine: T-009 (proposta dell'Architect), T-010 (revisione), decisioni G1-B, G2-B, G3-A del committente
 Requisiti: versione 1.0
