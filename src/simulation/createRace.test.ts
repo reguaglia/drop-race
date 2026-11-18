@@ -53,6 +53,47 @@ describe('createRace (T-012 stub, ADR-001 simulation contract)', () => {
     expect(engineA.advance(16)).toEqual(engineB.advance(16));
   });
 
+  it('returns the initial snapshot with no events from advance(16) (T-012 acceptance 3)', () => {
+    const engine = createRace(makeConfig(), 9, makeDeps());
+    const initialSnapshot = engine.getSnapshot();
+
+    const result = engine.advance(16);
+
+    expect(result.snapshot).toEqual(initialSnapshot);
+    expect(result.events).toEqual([]);
+  });
+
+  it('keeps getSnapshot equal to the initial snapshot after advance (T-012 acceptance 3; ADR-001 invariant 5)', () => {
+    const engine = createRace(makeConfig(), 9, makeDeps());
+    const initialSnapshot = engine.getSnapshot();
+
+    engine.advance(16);
+
+    expect(engine.getSnapshot()).toEqual(initialSnapshot);
+  });
+
+  it('returns the state supplied by createRng from getRngState before and after advance (T-012 acceptance 3; ADR-001 invariant 1)', () => {
+    const rngState: RngState = { serialized: 'injected-rng-state' };
+    const rng: Rng = {
+      next: () => 0.5,
+      getState: () => rngState,
+    };
+    const deps: RaceDependencies = { createRng: () => rng };
+    const engine = createRace(makeConfig(), 9, deps);
+
+    expect(engine.getRngState()).toEqual(rngState);
+
+    engine.advance(16);
+
+    expect(engine.getRngState()).toEqual(rngState);
+  });
+
+  it('exposes the seed passed to createRace (ADR-001 SimulationEngine contract)', () => {
+    const engine = createRace(makeConfig(), 1234, makeDeps());
+
+    expect(engine.seed).toBe(1234);
+  });
+
   it('calls createRng with the seed (ADR-001 contract/dependencies)', () => {
     const createRng = vi.fn((seed: number) => makeRng(`state-${seed}`));
     const deps = makeDeps(createRng);
