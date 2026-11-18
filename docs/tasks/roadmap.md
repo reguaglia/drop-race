@@ -12,6 +12,8 @@
 - Dipendenze: versioni esatte, mai pubblicate da meno di 14 giorni. `npm install` e ogni modifica a `package.json` sono solo umani.
 - `main` è protetta: ogni modifica, anche ai documenti, passa da un branch e da una pull request; il merge è del committente.
 - Merge delle pull request: squash and merge, titolo T-0NN: ....
+- Developer: avviato solo con `ocdev` (token limitato al repository), mai con `--auto`. Commit, push e PR chiedono conferma: leggere il comando e rispondere "una volta".
+- Il Developer può far eseguire codice arbitrario scrivendo ed eseguendo test: dopo ogni task si controlla il diff prima di fidarsi.
 
 ## Milestone
 1. Preparazione dell'ambiente: completata.

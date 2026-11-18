@@ -22,9 +22,14 @@ gocce d'acqua su un finestrino. La fonte di verità è `docs/requirements.md`.
 ## Convenzioni
 Documenti in italiano; codice e identificatori in inglese.
 
-## Stato attuale
-Nessun codice né `package.json`. Non eseguire comandi presunti (`npm`, ecc.) finché non esiste un manifest. Sostituire questa sezione quando c'è il tooling.
-Agenti definiti in .opencode/agents/.
+## Struttura di src/
+Moduli e dipendenze: `docs/adr/ADR-001-architettura-iniziale.md`. Contratto di `game`: `docs/adr/ADR-002-contratto-game.md`. I contratti non si cambiano: si propone la modifica.
+
+## Comandi
+- `npm test`: test (Vitest, ambiente Node).
+- `npm run typecheck`: controllo dei tipi.
+- `npm run build`: controllo dei tipi e build.
+`npm install` e le modifiche a `package.json` sono operazioni del committente.
 
 ## Strumenti
 OpenCode V1, non V2. Gli agenti stanno in `.opencode/agents/*.md` e usano la chiave `permission` (singolare). Non usare la sintassi V2.
