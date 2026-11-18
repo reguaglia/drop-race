@@ -1,6 +1,6 @@
 # Requisiti
 
-Versione: 0.9
+Versione: 1.0
 
 Questo documento è la fonte di verità del progetto. Solo il committente può modificarlo.
 
@@ -40,7 +40,7 @@ Un tentativo di piazzamento è valutato in quest'ordine:
 4. Distanza minima, verificata sulla posizione dopo l'aggancio: se non è rispettata, la goccia non viene creata e l'interfaccia informa che la posizione è troppo vicina a un'altra goccia.
 In tutti gli altri casi la goccia viene creata.
 
-Selezione e modifica. Un click o tap su una goccia dinamica già presente, cioè su un punto interno al suo cerchio, la seleziona; non è un tentativo di piazzamento. È selezionata al massimo una goccia: un secondo click o tap sulla goccia selezionata la deseleziona, e un piazzamento riuscito deseleziona la goccia selezionata. Una goccia selezionata può essere ricolorata, spostata o eliminata. Con una goccia selezionata, la scelta di un colore nella palette ne cambia il colore, purché non sia utilizzato da altre gocce presenti: con 8 gocce presenti il cambio di colore non è possibile. Senza gocce selezionate, la scelta di un colore determina quello della goccia successiva.
+Selezione e modifica. Un click o tap su una goccia dinamica già presente, cioè su un punto interno al suo cerchio, la seleziona; non è un tentativo di piazzamento. È selezionata al massimo una goccia: un secondo click o tap sulla goccia selezionata la deseleziona, e un piazzamento riuscito deseleziona la goccia selezionata. Una goccia selezionata può essere ricolorata, spostata o eliminata. Con una goccia selezionata, la scelta di un colore nella palette ne cambia il colore, purché non sia utilizzato da altre gocce presenti: con 8 gocce presenti il cambio di colore non è possibile. Senza gocce selezionate, la scelta di un colore determina quello della goccia successiva. Con una goccia selezionata, il colore che possiede resta selezionabile nella palette; sceglierlo non produce alcun cambiamento.
 
 Se la scelta di un colore per la goccia successiva coincide con il colore che una goccia selezionata assume in seguito a una ricolorazione, la scelta per la goccia successiva viene rimossa. Un tentativo di piazzamento non riuscito lascia invariate la selezione e la scelta del colore per la goccia successiva.
 
