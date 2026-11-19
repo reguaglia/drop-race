@@ -303,4 +303,45 @@ describe('T-014 step 1 — placement and colour acceptance (QA, before implement
     expect(dropletsOf(result.up.view)).toHaveLength(1);
     expect(result.events).toEqual([{ type: 'message', message: { type: 'positionTooClose' } }]);
   });
+
+  it('US-1.3 contro-caso: a touch outside the snap band keeps the exact touch x', () => {
+    const unsnappedXs = [2 * SIDE_MARGIN, WINDOW_WIDTH - 2 * SIDE_MARGIN];
+
+    for (const x of unsnappedXs) {
+      const droplet = place(makeGame(), x);
+      expect(droplet.x).toBe(x);
+    }
+  });
+
+  it('Requisiti, tentativo non riuscito: a failed too-close touch leaves the chosen colour for the next droplet unchanged', () => {
+    const game = makeGame();
+    const existing = place(game, placementXs()[0]);
+    const chosen = PALETTE_COLOR_IDS[PALETTE_COLOR_IDS.length - 1];
+
+    game.chooseColor(chosen);
+    expect(configurationOf(game.getView()).nextDropletColorId).toBe(chosen);
+
+    const failed = touch(game, existing.x + TOO_CLOSE_DISTANCE);
+    expect(dropletsOf(failed.up.view)).toHaveLength(1);
+    expect(failed.events).toEqual([{ type: 'message', message: { type: 'positionTooClose' } }]);
+    expect(configurationOf(failed.up.view).nextDropletColorId).toBe(chosen);
+    expect(configurationOf(game.getView()).nextDropletColorId).toBe(chosen);
+
+    const created = place(game, WINDOW_WIDTH / 2);
+    expect(created.colorId).toBe(chosen);
+  });
+
+  it('Regola 2, gesto oltre la soglia: a free-point gesture past DRAG_THRESHOLD creates no droplet and emits no events', () => {
+    const game = makeGame();
+    const start: Point = { x: WINDOW_WIDTH / 2, y: INSIDE_Y };
+    const end: Point = { x: start.x, y: start.y + 2 * DRAG_THRESHOLD };
+
+    const down = game.pointerDown(start);
+    const up = game.pointerUp(end);
+
+    expect(up.view.phase).toBe('configuring');
+    expect(dropletsOf(up.view)).toEqual([]);
+    expect(dropletsOf(game.getView())).toEqual([]);
+    expect([...down.events, ...up.events]).toEqual([]);
+  });
 });
