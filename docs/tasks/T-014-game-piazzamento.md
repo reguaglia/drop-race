@@ -53,9 +53,10 @@ Implementare nel modulo `game` il piazzamento delle gocce dinamiche e l'assegnaz
 ### Passo 2 — Developer (dopo)
 - Crea `src/game/createGame.ts` e, se servono, file di supporto in `src/game/`.
 - Implementa solo `getView`, `pointerDown`, `pointerUp` (tocco su un punto libero, entro `DRAG_THRESHOLD`) e `chooseColor` (solo per la goccia successiva, senza goccia selezionata).
+- Il piazzamento usa il punto di pointerUp.
 - Stato iniziale: nessuna goccia; `windowHeight = WINDOW_HEIGHT_DEFAULT`; `obstacleLevel = DEFAULT_OBSTACLE_LEVEL`; palette `PALETTE_COLOR_IDS` tutta `selectable`; `selectedDropletId = null`; `nextDropletColorId = null`; `canStart = false`.
 - Gli altri metodi di `Game` sollevano `Error('not implemented')`.
-- `chooseColor` con un colore non selezionabile non produce effetti né eventi (da confermare in «Da decidere»).
+- `chooseColor` con un colore non selezionabile non produce effetti né eventi (confermato).
 - Nessun uso di `createRace` in questo task.
 - Tutti i test di accettazione passano; `npm test`, `npm run typecheck` e `npm run build` passano, con output riportato.
 - Nessun file fuori da `src/game/`; nessun file `*.acceptance.test.ts` modificato.
@@ -70,7 +71,6 @@ Implementare nel modulo `game` il piazzamento delle gocce dinamiche e l'assegnaz
 
 ## Da decidere
 - US-1.6: la quota fissa delle gocce (centro a 7 unità dal bordo superiore, bordo inferiore sulla linea di partenza a 10) non è osservabile nella vista di configurazione definita in ADR-002. Come si intende verificarla o visualizzarla? Il QA verifica per ora solo l'indipendenza della `x` dalla `y` del tocco.
-- `chooseColor` con un colore non selezionabile, senza goccia selezionata: il comportamento non è specificato. Il Developer implementa «nessun effetto né eventi» in attesa di conferma; il QA non lo testa.
 
 ## Esito
 Da registrare dal committente con l'output integrale del QA e poi del Developer (l'Orchestrator non delega: QA e Developer sono agenti primari avviati dal committente).
