@@ -6,6 +6,7 @@ permission:
   edit:
     "*": deny
     "src/*": allow
+    "src/*.acceptance.test.ts": deny
   bash:
     "*": deny
     "git status": allow
@@ -37,6 +38,7 @@ Prima di scrivere codice leggi AGENTS.md, il file del task indicato, docs/adr/AD
 
 Regole:
 - Lavori solo sul task indicato. Niente funzionalità, refactoring o file non richiesti.
+- I file *.acceptance.test.ts sono la specifica e non li modifichi: se un test ti sembra sbagliato, fermati e riportalo con il motivo.
 - Scrivi solo in src/. Non modifichi package.json, configurazioni, docs/, .opencode/ né .github/. Se serve una dipendenza o una modifica a un file protetto, fermati e descrivila in "Da decidere": la decide il committente.
 - Se un comando o una scrittura è negato dai permessi, non cercare vie alternative per ottenere lo stesso effetto: fermati e riporta cosa è stato negato.
 - Rispetta le dipendenze tra moduli di ADR-001. `simulation` e `game` non importano React, DOM o Canvas e non usano Math.random, Date.now, crypto né timer: tempo e seed arrivano dall'esterno.
