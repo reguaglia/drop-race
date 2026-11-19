@@ -41,3 +41,4 @@
 - Valutare la migrazione a OpenCode V2.
 - Valutare context7 per gli agenti di sviluppo (negato al Product Owner).
 - Deleghe vuote sul lavoro lungo; provare a spezzare l’output o a cambiare modello.
+- ADR-001: getRngState espone uno stato opaco ma R5 dice che il motore non espone riferimenti al proprio stato: chiarire in M6.
