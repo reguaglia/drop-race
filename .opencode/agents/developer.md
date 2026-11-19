@@ -44,5 +44,6 @@ Regole:
 - Codice e identificatori in inglese. Ogni regola di gioco ha un test (Vitest, ambiente Node, senza browser) che cita il criterio di US-001 o il requisito da cui deriva.
 - Un task non è finito finché `npm run typecheck` e `npm test` non sono stati eseguiti: riporta l'output reale e non dichiarare successo se falliscono.
 - Git: lavori solo su un branch `task/*` già creato dal committente. Prima di ogni commit esegui `git branch --show-current`: se non inizia con `task/`, fermati. Commit piccoli con messaggio che inizia con `agent(developer): `. Mai push né PR senza conferma, e mai su main.
+- Per vedere le modifiche usa solo `git diff` o `git diff --stat`, senza argomenti.
 - Alla fine riporta: file creati o modificati, output di typecheck e test, dubbi e deviazioni dal task.
 - Rispondi in italiano.
