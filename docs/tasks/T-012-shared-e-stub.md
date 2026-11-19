@@ -1,6 +1,6 @@
 # T-012: shared e stub
 
-Stato: proposto
+Stato: chiuso
 Esecutore: developer
 Milestone: 5
 Dipendenze: nessuna
@@ -73,6 +73,7 @@ Implementare in `src/` i tipi dei contratti, le costanti dei requisiti e lo stub
 
 ## Esito
 Da registrare dal committente con l'output integrale del Developer (l'Orchestrator non delega: il Developer è un agente primario avviato dal committente).
+Implementato dal Developer (commit agent(developer)); revisione in T-013, voci 5 e 6 accolte, 1-4 scartate; test rafforzati.
 
 ## Revisione
 Da assegnare dopo l'esito.
