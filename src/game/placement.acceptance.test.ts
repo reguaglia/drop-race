@@ -344,4 +344,61 @@ describe('T-014 step 1 — placement and colour acceptance (QA, before implement
     expect(dropletsOf(game.getView())).toEqual([]);
     expect([...down.events, ...up.events]).toEqual([]);
   });
+
+  it('Requisiti, tentativo non riuscito per limite: il colore libero è consumato dall\'ottava goccia e il tocco successivo non aggiunge nulla', () => {
+    const game = makeGame();
+    const xs = placementXs();
+
+    for (const x of xs.slice(0, MAX_DROPLETS - 1)) {
+      place(game, x);
+    }
+    expect(dropletsOf(game.getView())).toHaveLength(MAX_DROPLETS - 1);
+
+    const freeColor = firstUnusedColor(game.getView());
+    if (freeColor === undefined) {
+      throw new Error('expected one free palette colour before reaching the droplet limit');
+    }
+    const freeEntry = configurationOf(game.getView()).palette.find(
+      (entry) => entry.colorId === freeColor,
+    );
+    expect(freeEntry?.selectable).toBe(true);
+
+    const chosen = game.chooseColor(freeColor);
+    expect(chosen.events).toEqual([]);
+    expect(configurationOf(chosen.view).nextDropletColorId).toBe(freeColor);
+
+    const eighth = place(game, xs[MAX_DROPLETS - 1]);
+    expect(eighth.colorId).toBe(freeColor);
+    expect(dropletsOf(game.getView())).toHaveLength(MAX_DROPLETS);
+    expect(configurationOf(game.getView()).nextDropletColorId).toBeNull();
+    expect(configurationOf(game.getView()).palette.every((entry) => !entry.selectable)).toBe(true);
+
+    const idsBeforeFailedTouch = currentIds(game);
+    const failed = touch(game, FREE_X);
+
+    expect(failed.events).toEqual([{ type: 'message', message: { type: 'dropletLimitReached' } }]);
+    expect(dropletsOf(failed.up.view)).toHaveLength(MAX_DROPLETS);
+    expect(dropletsOf(failed.up.view).map((droplet) => droplet.id)).toEqual(idsBeforeFailedTouch);
+    expect(configurationOf(failed.up.view).nextDropletColorId).toBeNull();
+    expect(dropletsOf(game.getView()).map((droplet) => droplet.id)).toEqual(idsBeforeFailedTouch);
+    expect(configurationOf(game.getView()).nextDropletColorId).toBeNull();
+  });
+
+  it('chooseColor su colore non selezionabile: il colore già usato non cambia nextDropletColorId e non emette eventi', () => {
+    const game = makeGame();
+    const droplet = place(game, WINDOW_WIDTH / 2);
+    const usedColor = droplet.colorId;
+
+    const before = configurationOf(game.getView());
+    expect(before.selectedDropletId).toBeNull();
+    expect(before.nextDropletColorId).toBeNull();
+    expect(before.palette.find((entry) => entry.colorId === usedColor)?.selectable).toBe(false);
+
+    const step = game.chooseColor(usedColor);
+
+    expect(step.events).toEqual([]);
+    expect(configurationOf(step.view).nextDropletColorId).toBeNull();
+    expect(configurationOf(step.view).palette).toEqual(before.palette);
+    expect(configurationOf(game.getView()).nextDropletColorId).toBeNull();
+  });
 });
