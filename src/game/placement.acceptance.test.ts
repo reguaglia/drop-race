@@ -401,4 +401,91 @@ describe('T-014 step 1 — placement and colour acceptance (QA, before implement
     expect(configurationOf(step.view).palette).toEqual(before.palette);
     expect(configurationOf(game.getView()).nextDropletColorId).toBeNull();
   });
+
+  it('Regola 2, soglia inclusa: a pointerUp exactly DRAG_THRESHOLD away in y is still a touch', () => {
+    const game = makeGame();
+    const x = WINDOW_WIDTH / 2;
+    const start: Point = { x, y: INSIDE_Y };
+    const end: Point = { x, y: start.y + DRAG_THRESHOLD };
+
+    const down = game.pointerDown(start);
+    expect(dropletsOf(down.view)).toEqual([]);
+    expect(down.events).toEqual([]);
+
+    const up = game.pointerUp(end);
+    const created = dropletsOf(up.view);
+    expect(created).toHaveLength(1);
+    expect(created[0].x).toBe(x);
+    expect(up.events).toEqual([]);
+    expect(dropletsOf(game.getView())).toHaveLength(1);
+  });
+
+  it('Regola 2, gesto oltre soglia con otto gocce: no events and no droplet created', () => {
+    const game = makeGame();
+    fillToLimit(game);
+    const idsBefore = currentIds(game);
+    const start: Point = { x: FREE_X, y: INSIDE_Y };
+    const end: Point = { x: FREE_X, y: INSIDE_Y + 2 * DRAG_THRESHOLD };
+
+    expect(end.y - start.y).toBeGreaterThan(DRAG_THRESHOLD);
+
+    const down = game.pointerDown(start);
+    const up = game.pointerUp(end);
+
+    expect(up.view.phase).toBe('configuring');
+    expect(dropletsOf(up.view).map((droplet) => droplet.id)).toEqual(idsBefore);
+    expect(dropletsOf(game.getView()).map((droplet) => droplet.id)).toEqual(idsBefore);
+    expect([...down.events, ...up.events]).toEqual([]);
+  });
+
+  it('Regola 2, pointerUp senza pointerDown: no events and no droplet created', () => {
+    const game = makeGame();
+
+    const up = game.pointerUp({ x: WINDOW_WIDTH / 2, y: INSIDE_Y });
+
+    expect(up.view.phase).toBe('configuring');
+    expect(dropletsOf(up.view)).toEqual([]);
+    expect(up.events).toEqual([]);
+    expect(dropletsOf(game.getView())).toEqual([]);
+  });
+
+  it('R5 (ADR-001): mutating a returned view or its droplet list leaves later views unchanged', () => {
+    const game = makeGame();
+    const x = WINDOW_WIDTH / 2;
+    const droplet = place(game, x);
+
+    // Reflect.set also works when the implementation freezes the view: a
+    // refused mutation still leaves the later views observable and unchanged.
+    const view = game.getView() as unknown as {
+      phase: string;
+      configuration: {
+        windowHeight: number;
+        nextDropletColorId: DropColorId | null;
+        droplets: Array<{ id: string; x: number; colorId: DropColorId }>;
+      };
+    };
+    const dropletsView = view.configuration.droplets;
+    Reflect.set(view, 'phase', 'racing');
+    Reflect.set(view.configuration, 'windowHeight', 0);
+    Reflect.set(view.configuration, 'nextDropletColorId', PALETTE_COLOR_IDS[0]);
+    if (dropletsView.length > 0) {
+      Reflect.set(dropletsView[0], 'x', FREE_X);
+      Reflect.set(dropletsView, 0, {
+        id: `fake-${droplet.id}`,
+        x: FREE_X,
+        colorId: droplet.colorId,
+      });
+      Reflect.set(dropletsView, 'length', 0);
+    }
+
+    const afterPhase = game.getView().phase;
+    const after = configurationOf(game.getView());
+    expect(afterPhase).toBe('configuring');
+    expect(after.windowHeight).toBe(WINDOW_HEIGHT_DEFAULT);
+    expect(after.nextDropletColorId).toBeNull();
+    expect(after.droplets).toHaveLength(1);
+    expect(after.droplets[0].id).toBe(droplet.id);
+    expect(after.droplets[0].x).toBe(x);
+    expect(after.droplets[0].colorId).toBe(droplet.colorId);
+  });
 });
