@@ -1,6 +1,6 @@
 # T-014: game — piazzamento e assegnazione colori
 
-Stato: proposto
+Stato: chiuso
 Esecutore: qa (passo 1), poi developer (passo 2)
 Milestone: 5
 Dipendenze: T-012
@@ -76,6 +76,8 @@ Implementare nel modulo `game` il piazzamento delle gocce dinamiche e l'assegnaz
 Da registrare dal committente con l'output integrale del QA e poi del Developer (l'Orchestrator non delega: QA e Developer sono agenti primari avviati dal committente).
 - Passo 1 — QA: output integrale, tabella criterio → test compilata, criteri non coperti, output grezzo dei test prima dell'implementazione.
 - Passo 2 — Developer: output integrale, output di `npm test`, `npm run typecheck` e `npm run build`.
+
+Implementato dal Developer; test di accettazione del QA in due round; mutazioni verificate a mano
 
 ## Revisione
 Da registrare dal committente. L'Orchestrator non approva né chiude il task senza conferma esplicita.
