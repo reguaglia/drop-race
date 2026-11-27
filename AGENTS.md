@@ -30,6 +30,7 @@ Moduli e dipendenze: `docs/adr/ADR-001-architettura-iniziale.md`. Contratto di `
 - `npm run typecheck`: controllo dei tipi.
 - `npm run build`: controllo dei tipi e build.
 `npm install` e le modifiche a `package.json` sono operazioni del committente.
+Non passare file a `tsc`: usa `npm run typecheck`.
 
 ## Strumenti
 OpenCode V1, non V2. Gli agenti stanno in `.opencode/agents/*.md` e usano la chiave `permission` (singolare). Non usare la sintassi V2.
